@@ -24,9 +24,12 @@ PocketPilot is an **expense and income tracking app** that helps you monitor you
 
 | Add Expense | Home Dashboard | Statistics |
 |-------------|----------------|------------|
-| ![Add Expense](https://github.com/user-attachments/assets/487b533f-ea11-4a7c-ae5e-0379bb4e0b17)
-) | ![Home Screen](https://github.com/user-attachments/assets/19cbbd36-bb1e-4c19-bebf-157adf2b24da)
-) | ![Statistics](https://github.com/user-attachments/assets/3c2f81a8-3d59-4c7e-bfca-bd4641644964)
+| ![Add Expense](![Add_Screen](https://github.com/user-attachments/assets/3d1957e0-9854-4f09-85bc-3510b4b5dabd)
+)
+) | ![Home Screen]( ![Home_Screen](https://github.com/user-attachments/assets/510318de-0126-4866-8a95-6ada54c9dec1)
+)
+) | ![Statistics](![Stats_Screen](https://github.com/user-attachments/assets/d7ae0fa1-c330-47cf-88d9-7dc7242e3141)
+)
 ) |
 
 ---
@@ -66,9 +69,10 @@ PocketPilot/
 ---
 ## 🛠 Tech Stack  
 
-- **Language:** Kotlin  
-- **Frameworks:** Android Jetpack (ViewModel, LiveData, Room, etc.)  
-- **Database:** SQLite / Room  
+- **Language:** Kotlin
+- **Architecture:** MVVM (Model-View-ViewModel)
+- **Frameworks:** Android Jetpack (ViewModel, StateFlow, Room, etc.)  
+- **Database:**  Room  
 - **UI Components:** Material Design, XML Layouts  
 - **Charts/Graphs:** MPAndroidChart (for statistics visualization)  
 - **Build System:** Gradle (Kotlin DSL)  
