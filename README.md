@@ -24,8 +24,10 @@ PocketPilot is an **expense and income tracking app** that helps you monitor you
 
 | Add Expense | Home Dashboard | Statistics |
 |-------------|----------------|------------|
-| ![Add Expense](![Add_Screen](https://github.com/user-attachments/assets/487b533f-ea11-4a7c-ae5e-0379bb4e0b17)
-) | ![Home Screen](Home_Screen.jpg) | ![Statistics](Stats_Screen.jpg) |
+| ![Add Expense](https://github.com/user-attachments/assets/487b533f-ea11-4a7c-ae5e-0379bb4e0b17)
+) | ![Home Screen](https://github.com/user-attachments/assets/19cbbd36-bb1e-4c19-bebf-157adf2b24da)
+) | ![Statistics](https://github.com/user-attachments/assets/3c2f81a8-3d59-4c7e-bfca-bd4641644964)
+) |
 
 ---
 ## 🚀 Getting Started  
