@@ -27,7 +27,6 @@ PocketPilot is an **expense and income tracking app** that helps you monitor you
 | ![Add Expense](Add_Screen.jpg) | ![Home Screen](Home_Screen.jpg) | ![Statistics](Stats_Screen.jpg) |
 
 ---
-
 ## 🚀 Getting Started  
 
 ### Prerequisites  
@@ -59,6 +58,7 @@ PocketPilot/
 │── gradle/              # Gradle wrapper
 │── build.gradle.kts     # Project-level Gradle config
 │── settings.gradle.kts  # Module linking
+
 
 ---
 ## 🛠 Tech Stack  
