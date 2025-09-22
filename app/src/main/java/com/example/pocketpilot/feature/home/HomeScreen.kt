@@ -1,6 +1,5 @@
-package com.example.pocketpilot
+package com.example.pocketpilot.feature.home
 
-import android.service.controls.actions.FloatAction
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,8 +35,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.compose.rememberNavController
+import com.example.pocketpilot.R
+import com.example.pocketpilot.Utils
 import com.example.pocketpilot.data.model.ExpenseEntity
 import com.example.pocketpilot.ui.theme.Zinc
 import com.example.pocketpilot.viewModel.HomeViewModel
@@ -46,7 +46,7 @@ import com.example.pocketpilot.widget.ExpenseTextView
 
 @Composable
 fun HomeScreen(
-     navController: NavController
+    navController: NavController
 ) {
     val viewModel: HomeViewModel =
         HomeViewModelFactory(LocalContext.current).create(HomeViewModel::class.java)
@@ -112,40 +112,47 @@ fun HomeScreen(
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                         height = Dimension.fillToConstraints
-                    }, list = state.value,
-                viewModel
-            )
-
-            Image(
-                painter = painterResource(id = R.drawable.ic_add),
-                contentDescription = null,
-                modifier = Modifier
-                    .constrainAs(add) {
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end)
-                    }
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        navController.navigate("/add")
-                    }
-            )
-
-
-//            FloatingActionButton(onClick = {
-//                navController.navigate(NavDestination.Add)
-//            },
-//                modifier = Modifier.size(24.dp)
-//                    .constrainAs(add){
+                    },
+                list = state.value,
+                )
+//
+//            Image(
+//                painter = painterResource(id = R.drawable.ic_add),
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .constrainAs(add) {
 //                        bottom.linkTo(parent.bottom)
 //                        end.linkTo(parent.end)
 //                    }
 //                    .size(48.dp)
 //                    .clip(CircleShape)
-//            ) {
-//                Icon(painter = painterResource(R.drawable.ic_add),
-//                    contentDescription = null)
-//            }
+//                    .clickable {
+//                        navController.navigate("/add")
+//                    }
+//            )
+
+
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate("/add")
+                },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .constrainAs(add) {
+                        bottom.linkTo(parent.bottom)
+                        end.linkTo(parent.end)
+                    }
+                    .size(48.dp)
+                    .clip(CircleShape),
+                containerColor = Zinc,
+                elevation = FloatingActionButtonDefaults.elevation(6.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_add),
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            }
 
         }
     }
@@ -222,20 +229,28 @@ fun CardRowItem(modifier: Modifier, title: String, amount: String, icon: Int) {
 }
 
 @Composable
-fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>, viewModel: HomeViewModel) {
+fun TransactionList(
+    modifier: Modifier,
+    list: List<ExpenseEntity>,
+    title: String = "Recent Transactions"
+) {
     LazyColumn(
         modifier = modifier
             .padding(horizontal = 16.dp)
     ) {
         item {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                ExpenseTextView(text = "Recent Transactions", fontSize = 20.sp)
-                ExpenseTextView(
-                    text = "See all",
-                    fontSize = 16.sp,
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    fontWeight = FontWeight.Medium
-                )
+            Column {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    ExpenseTextView(text = title, fontSize = 20.sp)
+                    if (title == "Recent Transactions") {
+                        ExpenseTextView(
+                            text = "See all",
+                            fontSize = 16.sp,
+                            modifier = Modifier.align(Alignment.CenterEnd),
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
             }
         }
 
@@ -243,7 +258,7 @@ fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>, viewModel: Ho
             TransactionItem(
                 title = item.title!!,
                 amount = item.amount.toString(),
-                icon = viewModel.getItemIcon(item),
+                icon = Utils.getItemIcon(item),
                 date = item.date.toString(),
                 color = if (item.type == "Income") Color.Green else Color.Red
             )
@@ -271,7 +286,7 @@ fun TransactionItem(title: String, amount: String, icon: Int, date: String, colo
             }
         }
         ExpenseTextView(
-            text = amount,
+            text = if(color == Color.Green)"+$amount" else "-$amount",
             fontSize = 20.sp,
             modifier = Modifier.align(Alignment.CenterEnd),
             color = color,

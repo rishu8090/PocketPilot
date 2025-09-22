@@ -1,4 +1,4 @@
-package com.example.pocketpilot
+package com.example.pocketpilot.feature.add_expense
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.pocketpilot.R
+import com.example.pocketpilot.Utils
 import com.example.pocketpilot.data.model.ExpenseEntity
 import com.example.pocketpilot.viewModel.AddExpenseViewModel
 import com.example.pocketpilot.viewModel.AddExpenseViewModelFactory
@@ -55,7 +57,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AddExpense(navController: NavController) {
-    val viewModel = AddExpenseViewModelFactory(LocalContext.current).create(AddExpenseViewModel::class.java)
+    val viewModel =
+        AddExpenseViewModelFactory(LocalContext.current).create(AddExpenseViewModel::class.java)
     val coroutineScope = rememberCoroutineScope()
     Surface(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
@@ -72,7 +75,7 @@ fun AddExpense(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .constrainAs(nameRow) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
@@ -82,8 +85,13 @@ fun AddExpense(navController: NavController) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = null,
-                    modifier = Modifier.align(Alignment.CenterStart)
-                )
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .clickable {
+                            navController.popBackStack()
+                        },
+
+                    )
                 ExpenseTextView(
                     text = "Add Expense",
                     fontSize = 20.sp,
@@ -108,11 +116,11 @@ fun AddExpense(navController: NavController) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }, onAddExpenseClick = {
-                        coroutineScope.launch {
-                            if(viewModel.addExpense(it)){
-                                navController.popBackStack()
-                            }
+                    coroutineScope.launch {
+                        if (viewModel.addExpense(it)) {
+                            navController.popBackStack()
                         }
+                    }
                 })
         }
     }
@@ -120,7 +128,7 @@ fun AddExpense(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity)-> Unit) {
+fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity) -> Unit) {
 
     val name = remember { mutableStateOf("") }
     val amount = remember { mutableStateOf("") }
@@ -149,12 +157,14 @@ fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity)-> Uni
 
         ExpenseTextView(text = "Amount", fontSize = 16.sp)
         Spacer(modifier = Modifier.size(4.dp))
-        OutlinedTextField(value = amount.value, onValueChange = {
-            amount.value = it
-        }, modifier = Modifier.fillMaxWidth(),
+        OutlinedTextField(
+            value = amount.value, onValueChange = {
+                amount.value = it
+            }, modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number
-            ))
+            )
+        )
         Spacer(modifier = Modifier.size(8.dp))
 
         // date Picker Dialog
@@ -168,7 +178,7 @@ fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity)-> Uni
                 .clickable {
                     dateDialogVisibility.value = true
                 },   // when visibility becomes true, date picker dialog will show up which we written in parent .
-            enabled =  false,
+            enabled = false,
             colors = OutlinedTextFieldDefaults.colors(
                 disabledBorderColor = Color.Gray,
                 disabledTextColor = Color.Gray
@@ -179,7 +189,8 @@ fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity)-> Uni
         // category  // dropdown
         ExpenseTextView(text = "Category", fontSize = 16.sp)
         Spacer(modifier = Modifier.size(4.dp))
-        DropDown(listOf("Paypal", "Netflix", "Youtube", "Upwork","Starbucks"),
+        DropDown(
+            listOf("Paypal", "Netflix", "Youtube", "Upwork", "Starbucks"),
             onItemSelect = {
                 category.value = it
             })
@@ -188,7 +199,8 @@ fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity)-> Uni
         // type // dropdown
         ExpenseTextView(text = "Type", fontSize = 16.sp)
         Spacer(modifier = Modifier.size(4.dp))
-        DropDown(listOf("Income", "Expense"),
+        DropDown(
+            listOf("Income", "Expense"),
             onItemSelect = {
                 type.value = it
             })
@@ -282,11 +294,13 @@ fun DropDown(listOfItems: List<String>, onItemSelect: (item: String) -> Unit) {
             onDismissRequest = {}
         ) {
             listOfItems.forEach {
-                DropdownMenuItem(text = {ExpenseTextView(text = it)},
+                DropdownMenuItem(
+                    text = { ExpenseTextView(text = it) },
                     onClick = {
                         selectedItem.value = it
                         onItemSelect(selectedItem.value)
-                    expanded.value = false })
+                        expanded.value = false
+                    })
             }
         }
     }
@@ -297,5 +311,5 @@ fun DropDown(listOfItems: List<String>, onItemSelect: (item: String) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun AddExpensePreview() {
- AddExpense(rememberNavController())
+    AddExpense(rememberNavController())
 }

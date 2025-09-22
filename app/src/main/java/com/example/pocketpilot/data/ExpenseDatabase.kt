@@ -28,7 +28,7 @@ abstract class ExpenseDatabase : RoomDatabase() {
                 RoomDatabase.Callback() {    // this callback is only for the testing purpose to check data is filled correctly or not., it will be removed later.
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    initBasicData(context)
+//                    initBasicData(context)
                 }
 
                 fun initBasicData(context: Context) {
